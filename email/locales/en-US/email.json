@@ -1,0 +1,23 @@
+{
+  "email": {
+    "label": {
+      "name": "Name",
+      "server": "Server",
+      "recipient": "Recipient",
+      "message": "Message"
+    },
+    "tip": "",
+    "help": "<p>E-mail node.</p>",
+    "paletteHelp": "",
+    "input1Description": ""
+  },
+  "email-server": {
+    "label": {
+      "server": "Server",
+      "user": "Username",
+      "port": "Port",
+      "pwd": "Password"
+    },
+    "help": ""
+  }
+}

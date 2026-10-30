@@ -1,0 +1,50 @@
+<script type="text/x-red" data-template-name="heating-mode">
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('heating-mode',{
+        category: 'HVAC',
+        color:"#3FADB5",
+        defaults: {
+            name: {value:""}
+        },
+        inputs:3,
+        inputInfo: [
+            {
+                label: "mI",
+                types: ["int"]
+            },
+            {
+                label: "wI",
+                types: ["float"]
+            },
+            {
+                label: "WIN",
+                types: ["bool"]
+            }
+        ],
+        outputs:2,
+        outputInfo: [
+            {
+                label: "wO",
+                types: ["float"]
+            },
+            {
+                label: "mO",
+                types: ["int"]
+            }
+        ],
+        icon: "function.png",
+        label: function() {
+            if(this.name) return this.name;
+            return "heating mode";
+        },
+        paletteLabel: "heating mode",
+        labelStyle: function () {
+			return "red-ui-flow-node-label-white";
+		},
+    });
+</script>

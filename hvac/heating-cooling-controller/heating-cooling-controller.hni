@@ -1,0 +1,226 @@
+<script type="text/x-red" data-template-name="heating-cooling-controller">
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-heatingtype"><i class="fa fa-sun-o"></i> <span data-i18n="heating-cooling-controller.label.heatingtype"></span></label>
+        <select style="width: 55%;" id="node-input-heatingtype" style="display: inline-block; width: 65%;">
+            <option value="radiator" data-i18n="heating-cooling-controller.label.radiator"></option>
+            <option value="castironradiator" data-i18n="heating-cooling-controller.label.castironradiator"></option>
+            <option value="floorheating" data-i18n="heating-cooling-controller.label.floorheating"></option>
+            <option value="manual" data-i18n="heating-cooling-controller.label.manual"></option>
+        </select>
+    </div>
+    <div class="form-row heating-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-kp"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.kp"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-heatingkp" data-i18n="[placeholder]heating-cooling-controller.label.kp">
+	</div>
+	<div class="form-row heating-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-tn"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.tn"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-heatingtn" data-i18n="[placeholder]heating-cooling-controller.label.tn">
+	</div>
+	<div class="form-row heating-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-td"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.td"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-heatingtd" data-i18n="[placeholder]heating-cooling-controller.label.td">
+	</div>
+	<div class="form-row heating-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-rcwlp"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.rcwlp"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-heatingrcwlp" data-i18n="[placeholder]heating-cooling-controller.label.rcwlp">
+	</div>
+	<div class="form-row heating-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-ylprc"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.ylprc"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-heatingylprc" data-i18n="[placeholder]heating-cooling-controller.label.ylprc">
+	</div>
+	<div class="form-row heating-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-uvalvelprc"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.uvalvelprc"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-heatingulprc" data-i18n="[placeholder]heating-cooling-controller.label.uvalvelprc">
+	</div>
+    <div class="form-row">
+		<label style="width: 170px;" for="node-input-coolingtype"><i class="fa fa-snowflake-o"></i> <span data-i18n="heating-cooling-controller.label.coolingtype"></span></label>
+		<select style="width: 55%;" id="node-input-coolingtype" style="display: inline-block; width: 65%;">
+			<option value="ac" data-i18n="heating-cooling-controller.label.ac"></option>
+			<option value="floorcooling" data-i18n="heating-cooling-controller.label.floorcooling"></option>
+			<option value="manual" data-i18n="heating-cooling-controller.label.manual"></option>
+		</select>
+	</div>
+	<div class="form-row cooling-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-kp"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.kp"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-coolingkp" data-i18n="[placeholder]heating-cooling-controller.label.kp">
+	</div>
+	<div class="form-row cooling-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-tn"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.tn"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-coolingtn" data-i18n="[placeholder]heating-cooling-controller.label.tn">
+	</div>
+	<div class="form-row cooling-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-td"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.td"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-coolingtd" data-i18n="[placeholder]heating-cooling-controller.label.td">
+	</div>
+	<div class="form-row cooling-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-rcwlp"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.rcwlp"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-coolingrcwlp" data-i18n="[placeholder]heating-cooling-controller.label.rcwlp">
+	</div>
+	<div class="form-row cooling-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-ylprc"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.ylprc"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-coolingylprc" data-i18n="[placeholder]heating-cooling-controller.label.ylprc">
+	</div>
+	<div class="form-row cooling-type-manual hide">
+		<label style="margin-left: 50px; width: 170px;" for="node-input-uvalvelprc"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-cooling-controller.label.ucoolinglprc"></span></label>
+		<input style="width: 70px;" type="text" id="node-input-coolingulprc" data-i18n="[placeholder]heating-cooling-controller.label.ucoolinglprc">
+	</div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-decalcificationday"><i class="fa fa-clock-o"></i> <span data-i18n="heating-cooling-controller.label.decalcificationday"></span></label>
+        <select style="width: 55%;" id="node-input-decalcificationday" style="display: inline-block; width: 65%;">
+            <option value="1" data-i18n="heating-cooling-controller.label.monday"></option>
+            <option value="2" data-i18n="heating-cooling-controller.label.tuesday"></option>
+            <option value="3" data-i18n="heating-cooling-controller.label.wednesday"></option>
+            <option value="4" data-i18n="heating-cooling-controller.label.thursday"></option>
+            <option value="5" data-i18n="heating-cooling-controller.label.friday"></option>
+            <option value="6" data-i18n="heating-cooling-controller.label.saturday"></option>
+            <option value="0" data-i18n="heating-cooling-controller.label.sunday"></option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-decalcificationhour"><i class="fa fa-clock-o"></i> <span data-i18n="heating-cooling-controller.label.decalcificationhour"></span></label>
+        <select style="width: 55%;" id="node-input-decalcificationhour" style="display: inline-block; width: 65%;">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-hysteresis"><i class="fa fa-cog"></i> <span data-i18n="heating-cooling-controller.label.hysteresis"></span></label>
+        <input style="width: 50px;" type="text" id="node-input-hysteresis" data-i18n="[placeholder]heating-cooling-controller.label.hysteresis">
+        <label style="width: 25px;" for="node-input-hysteresis"><span data-i18n="heating-cooling-controller.label.temperatureunit"></span></label>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-inputtype"><i class="fa fa-cog"></i> <span data-i18n="heating-cooling-controller.label.inputtype"></span></label>
+        <select style="width: 55%;" id="node-input-inputtype" style="display: inline-block; width: 65%;">
+            <option value="0">Node</option>
+            <option value="1">Input</option>
+        </select>
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('heating-cooling-controller',{
+        category: 'HVAC',
+        color:"#3FADB5",
+        defaults: {
+            name: {value:""},
+            inputs: { value:3 },
+            heatingtype: {value:"floorheating",required:true},
+            coolingtype: {value:"floorcooling",required:true},
+            decalcificationday: {value:"5",validate:RED.validators.number()},
+            decalcificationhour: {value:"11",validate:RED.validators.number()},
+            heatingkp: {value:"50",validate:RED.validators.number()},
+            heatingtn: {value:"7200",validate:RED.validators.number()},
+            heatingtd: {value:"600",validate:RED.validators.number()},
+            heatingrcwlp: {value:"60",validate:RED.validators.number()},
+            heatingylprc: {value:"60",validate:RED.validators.number()},
+            heatingulprc: {value:"60",validate:RED.validators.number()},
+            coolingkp: {value:"50",validate:RED.validators.number()},
+			coolingtn: {value:"7200",validate:RED.validators.number()},
+			coolingtd: {value:"600",validate:RED.validators.number()},
+			coolingrcwlp: {value:"60",validate:RED.validators.number()},
+			coolingylprc: {value:"60",validate:RED.validators.number()},
+			coolingulprc: {value:"60",validate:RED.validators.number()},
+            hysteresis: {value:"3",validate:RED.validators.number()},
+            inputtype: {value:"0",validate:RED.validators.number()},
+            hvactype: {value:"0",validate:RED.validators.number()}
+        },
+        inputs:3,
+        inputInfo: [
+            {
+                label: "EN",
+                types: ["boolean"]
+            },
+            {
+                label: "y",
+                types: ["float"]
+            },
+            {
+                label: "w",
+                types: ["float"]
+            },
+            {
+                label: "t",
+                types: ["int"]
+            }
+        ],
+        outputs:3,
+        outputInfo: [
+            {
+                label: "uh",
+                types: ["int"]
+            },
+            {
+				label: "uc",
+				types: ["int"]
+			},
+            {
+                label: "t",
+                types: ["int"]
+            }
+        ],
+        icon: "font-awesome/fa-thermometer",
+        label: function() {
+            if(this.name) return this.name;
+            return "heating and cooling controller";
+        },
+        paletteLabel: "heating/cooling",
+        labelStyle: function () {
+			return "red-ui-flow-node-label-white";
+		},
+        oneditsave: function() {
+            this.inputs = $("#node-input-inputtype").val() == 0 ? 3 : 4;
+        },
+        oneditprepare: function() {
+            this.inputs = $("#node-input-inputtype").val() == 0 ? 3 : 4;
+
+            $("#node-input-heatingtype").on("change", function() {
+                if($(this).val() == "manual"){
+                    $(".heating-type-manual").show();
+                } else {
+                    $(".heating-type-manual").hide();
+                }
+            });
+
+            $("#node-input-coolingtype").on("change", function() {
+				if($(this).val() == "manual"){
+					$(".cooling-type-manual").show();
+				} else {
+					$(".cooling-type-manual").hide();
+				}
+			});
+
+            $("#node-input-inputtype").on("change", function() {
+                if($(this).val() == 0){
+                    this.inputs = 3;
+                } else {
+                    this.inputs = 4;
+                }
+            });
+        }
+    });
+</script>

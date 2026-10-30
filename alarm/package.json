@@ -1,0 +1,18 @@
+{
+  "name": "alarm",
+  "keywords": [
+    "node-blue",
+    "homegear",
+    "alarm"
+  ],
+  "node-blue": {
+    "local": false,
+    "maxThreadCounts": {
+      "alarm": 1
+    },
+    "nodes": {
+      "alarm": "alarm.so"
+    }
+  },
+  "version": "1.0.0"
+}

@@ -1,0 +1,79 @@
+<script type="text/x-red" data-template-name="alarm">
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-zones"><i class="fa fa-random"></i> <span data-i18n="alarm.label.zones"></span></label>
+        <input id="node-input-zones" style="width: 60px;" value="1">
+    </div>
+    <div class="form-row">
+        <label for="node-input-detection-groups"><i class="fa fa-random"></i> <span data-i18n="alarm.label.detectionGroups"></span></label>
+        <input id="node-input-detection-groups" style="width: 60px;" value="2">
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('alarm',{
+        category: 'Alarm',
+        color:"#ffb7b6",
+        defaults: {
+            name: {value:""},
+            zones: {value:1},
+            "detection-groups": {value:2},
+            inputs: {value:3},
+        },
+        inputs:3,
+        inputInfo: function(i) {
+            let zoneCount = this.zones;
+            let detectionGroupCount = this["detection-groups"];
+
+            if (i < zoneCount) {
+                let zone = i + 1;
+                return {
+                    types: ["bool"],
+                    label: "arm zone " + zone,
+                    description: "Arms zone " + zone + " when set to <code>true</code> or unarms it when set to <code>false</code>."
+                }
+            } else if (i < zoneCount + detectionGroupCount) {
+                let detectionGroup = i - zoneCount + 1;
+                return {
+                    types: ["bool"],
+                    label: "detection group " + detectionGroup + " state",
+                    description: "Sets the state of detection group " + detectionGroup + "."
+                }
+            } else return {label: i+''};
+        },
+        outputs:2,
+        outputInfo: [
+            {
+                label: "wO",
+                types: ["float"]
+            },
+            {
+                label: "mO",
+                types: ["int"]
+            }
+        ],
+        icon: "font-awesome/fa-bell",
+        label: function() {
+            if(this.name) return this.name;
+            return "alarm";
+        },
+        paletteLabel: "alarm",
+        oneditprepare: function() {
+			var that = this;
+			$( "#node-input-zones" ).spinner({
+				min:1
+			});
+            $( "#node-input-detection-groups" ).spinner({
+                min:1
+            });
+
+			this.editor.focus();
+		},
+        oneditsave: function() {
+            var node = this;
+            node.inputs = parseInt($( "#node-input-zones" ).val()) + parseInt($( "#node-input-detection-groups" ).val());
+        },
+    });
+</script>

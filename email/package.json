@@ -1,0 +1,20 @@
+{
+  "name": "email",
+  "keywords": [
+    "node-blue",
+    "homegear",
+    "email"
+  ],
+  "node-blue": {
+    "local": false,
+    "maxThreadCounts": {
+      "email-server": 0,
+      "email": 1
+    },
+    "nodes": {
+      "email-server": "email-server.s.php",
+      "email": "email.php"
+    }
+  },
+  "version": "1.0.0"
+}

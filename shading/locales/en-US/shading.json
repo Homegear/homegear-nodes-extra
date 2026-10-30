@@ -1,0 +1,33 @@
+{
+  "shading": {
+    "label": {
+        "shadingType": "Shading type",
+        "totalTimeMovingUp": "Total time moving up",
+        "totalTimeMovingDown": "Total time moving down",
+        "deadTime": "Dead time",
+        "startTime": "Start time",
+        "stepsNumber": "Steps number",
+        "actionAfterSecurity": "Action after Security",
+        "slatAdjustTime": "Slat adjust time",
+        "timeUnit": "Seconds"
+    },
+    "paletteHelp": "<p>Shading node.</p>",
+    "help": "",
+    "input1Description": "Up input",
+    "input2Description": "Down input",
+    "input3Description": "Stop input",
+    "input4Description": "Position input",
+    "input5Description": "Security position input",
+    "input6Description": "Deactivate input",
+    "input7Description": "Slats Up input",
+    "input8Description": "Slats Down input",
+    "input9Description": "Slats position input",
+    "output1Description": "Up output",
+    "output2Description": "Down output",
+    "output3Description": "Stop output",
+    "output4Description": "Position output",
+    "output5Description": "Slats Up output",
+    "output6Description": "Slats Down output",
+    "output5Description": "Slats position output"
+  }
+}

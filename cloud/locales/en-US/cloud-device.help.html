@@ -1,0 +1,74 @@
+<p>Creates a virtual device to send data point values to the Sensaru cloud.</p>
+<h3>Requirements</h3>
+<p>The node requires <code>homegear-cloudconnect</code> to be installed and fully configured.</p>
+<h3>Details</h3>
+<p><code>cloud-device</code> creates a virtual device. This device is uploaded to the Sensaru cloud with the configured
+    data points. Every data point update sent to one of the inputs is sent to the cloud.</p>
+<h3>Service messages</h3>
+<p>If an input has a service role set, setting this input to <code>true</code> generates a service message within the
+    Sensaru cloud. The service message is removed, when the input is set to <code>false</code> again.</p>
+<p>In addition there is always an <code>offline</code> data point and service message. Both are triggered when no input
+    is updated for the time specified in the property <code>Offline timeout</code>.</p>
+<h3>Properties</h3>
+<dl class="message-properties">
+    <dt>Description</dt>
+    <dd>A short descriptive text of the device.</dd>
+    <dt>Manufacturer</dt>
+    <dd>The manufacturer of the device, e. g. <code>ABB</code>.</dd>
+    <dt>Product name</dt>
+    <dd>The name of the product, e. g. <code>SA/S12.16.1</code>.</dd>
+    <dt>Serial number</dt>
+    <dd>The serial number of the device.</dd>
+    <dt>Hardware version</dt>
+    <dd>The hardware version of the device.</dd>
+    <dt>Software version</dt>
+    <dd>The software/firmware version of the device.</dd>
+    <dt>Equipment ID</dt>
+    <dd>An ID to identify individual devices, e. g. the AKS code.</dd>
+    <dt>Tags</dt>
+    <dd>A comma seperated list of tags. Tags specify what a device is used for. E. g. <code>elevator</code> to identify
+        a power meter used for the elevator.
+    </dd>
+    <dt>Location</dt>
+    <dd>If the device's location is different (hierarchically lower) than
+        the location of the gateway, it can be specified here. The location must start with the location
+        specified in the client certificate of <code>homegear-cloudconnect</code>. If the gateway is located
+        within the economic unit and the location in the certificate is <code>89:27842</code>. Then to place the
+        data point in building <code>03</code>, set <code>Location</code> to <code>89:27842.03</code>.
+    </dd>
+    <dt>Section</dt>
+    <dd>The frontend section to place the device in.</dd>
+    <dt>Offline timeout</dt>
+    <dd>After this time an offline service message is generated.</dd>
+    <dt>Metadata</dt>
+    <dd>A JSON object that is passed as is to the Sensaru cloud.</dd>
+    <dt>Data points</dt>
+    <dd>The list of data points of the device. Every data point has the following properties:
+        <ul>
+            <li><code>ID</code> - The ID of the data point. It has to be unique per node.</li>
+            <li><code>Type</code> - The data type of the data point.</li>
+            <li><code>Role</code> - The role of the data point. One of <code>Role</code> or <code>Service role</code>
+                must be set. The list of roles can be found <a target="_blank"
+                                                               href="https://github.com/Sensaru/smart-building-roles/blob/master/roles.json">here</a>.
+            </li>
+            <li><code>Service role</code> - The service role (a role between <code>800000</code> and <code>899999</code>)
+                of the data point. One of <code>Role</code> and <code>Service role</code> must be set.
+            </li>
+            <li><code>Location</code> - If the data point's location is different (hierarchically lower) than
+                the location of the gateway, it can be specified here. The location must start with the location
+                specified in the client certificate of <code>homegear-cloudconnect</code>. If the gateway is located
+                within the economic unit and the location in the certificate is <code>89:27842</code>. Then to place the
+                data point in building <code>03</code>, set <code>Location</code> to <code>89:27842.03</code>. This
+                setting is independent of the device's location setting.
+            </li>
+            <li><code>Unit</code> - The unit of the data point, e. g. <code>m³</code>.</li>
+            <li><code>Unit code</code> - The BACnet unit code. The unit code is mandatory if there is one. A complete
+                list can be found <a target="_blank"
+                                     href="https://github.com/Homegear/libhomegear-base/blob/dev/src/DeviceDescription/UnitCode.h">here</a>.
+            </li>
+            <li><code>Priority</code> - Only relevant when <code>Service role</code> is set. In this case this is the
+                priority of the generated service message.
+            </li>
+        </ul>
+    </dd>
+</dl>

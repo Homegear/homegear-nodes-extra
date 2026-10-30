@@ -1,0 +1,41 @@
+{
+  "cloud-device": {
+    "paletteHelp": "<p>Creates a virtual device to send data point values to the Sensaru cloud.</p>",
+    "label": {
+      "description": "Description",
+      "manufacturer": "Manufacturer",
+      "product-name": "Product name",
+      "serial-number": "Serial number",
+      "hardware-version": "Hardware version",
+      "software-version": "Software version",
+      "equipment-id": "Equipment ID",
+      "section": "Section",
+      "digital-infrastructure": "Digital infrastructure",
+      "meters": "Meters",
+      "primary-facilities": "Primary facilities",
+      "smart-home": "Smart home",
+      "tags": "Tags",
+      "tags-placeholder": "tag1,tag2,tag3,...",
+      "au": "Location",
+      "au-placeholder": "1234.1",
+      "offline-timeout": "Offline timeout",
+      "offline-timeout-placeholder": "timeout in s",
+      "offline-timeout-unit": "s",
+      "metadata": "Metadata",
+      "metadata-placeholder": "{}",
+      "datapoints": "Data points",
+      "id": "ID",
+      "label": "Label",
+      "type": "Type",
+      "role": "Role",
+      "service-role": "Service role",
+      "unit": "Unit",
+      "unit-code": "Unit code",
+      "priority": "Priority",
+      "priority-critical": "Critical",
+      "priority-error": "Error",
+      "priority-warning": "Warning",
+      "priority-info": "Info"
+    }
+  }
+}

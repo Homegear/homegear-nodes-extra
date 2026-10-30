@@ -1,0 +1,204 @@
+<script type="text/x-red" data-template-name="shading">
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-shadingType"><i class="fa fa-cog"></i> <span data-i18n="shading.label.shadingType"></span></label>
+        <select style="width: 35%;" id="node-input-shadingType" style="display: inline-block; width: 65%;">
+            <option value="0">Roller shutter</option>
+            <option value="1">Blinds</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-totalTimeMovingUp"><i class="fa fa-clock-o"></i> <span data-i18n="shading.label.totalTimeMovingUp"></span></label>
+        <input style="width: 35%;" type="text" id="node-input-totalTimeMovingUp" data-i18n="[placeholder]shading.label.totalTimeMovingUp">
+        <input type="hidden" id="node-input-totalTimeMovingUp-type">
+        <label style="width: 50px;" for="node-input-totalTimeMovingUp"><span data-i18n="shading.label.timeUnit"></span></label>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-totalTimeMovingDown"><i class="fa fa-clock-o"></i> <span data-i18n="shading.label.totalTimeMovingDown"></span></label>
+        <input style="width: 35%;" type="text" id="node-input-totalTimeMovingDown" data-i18n="[placeholder]shading.label.totalTimeMovingDown">
+        <input type="hidden" id="node-input-totalTimeMovingDown-type">
+        <label style="width: 50px;" for="node-input-totalTimeMovingDown"><span data-i18n="shading.label.timeUnit"></span></label>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-deadTime"><i class="fa fa-clock-o"></i> <span data-i18n="shading.label.deadTime"></span></label>
+        <input style="width: 35%;" type="text" id="node-input-deadTime" data-i18n="[placeholder]shading.label.deadTime">
+        <input type="hidden" id="node-input-deadTime-type">
+        <label style="width: 50px;" for="node-input-deadTime"><span data-i18n="shading.label.timeUnit"></span></label>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-startTime"><i class="fa fa-clock-o"></i> <span data-i18n="shading.label.startTime"></span></label>
+        <input style="width: 35%;" type="text" id="node-input-startTime" data-i18n="[placeholder]shading.label.startTime">
+        <input type="hidden" id="node-input-startTime-type">
+        <label style="width: 50px;" for="node-input-startTime"><span data-i18n="shading.label.timeUnit"></span></label>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-actionAfterSecurity"><i class="fa fa-cog"></i> <span data-i18n="shading.label.actionAfterSecurity"></span></label>
+        <select style="width: 35%;" id="node-input-actionAfterSecurity" style="display: inline-block; width: 65%;">
+            <option value="0">Last position</option>
+            <option value="1">Move down</option>
+            <option value="2">Do nothing</option>
+        </select>
+    </div>
+    <div class="form-row" id="stepsNumber-div">
+        <label style="width: 170px;" for="node-input-stepsNumber"><i class="fa fa-heartbeat"></i> <span data-i18n="shading.label.stepsNumber"></span></label>
+        <input style="width: 35%;" type="text" id="node-input-stepsNumber" data-i18n="[placeholder]shading.label.stepsNumber">
+        <input type="hidden" id="node-input-stepsNumber-type">
+    </div>
+    <div class="form-row" id="slat-adj-time-div">
+        <label style="width: 170px;" for="node-input-slatAdjustTime"><i class="fa fa-clock-o"></i> <span data-i18n="shading.label.slatAdjustTime"></span></label>
+        <input style="width: 35%;" type="text" id="node-input-slatAdjustTime" data-i18n="[placeholder]shading.label.slatAdjustTime">
+        <input type="hidden" id="node-input-slatAdjustTime-type">
+        <label style="width: 50px;" for="node-input-slatAdjustTime"><span data-i18n="shading.label.timeUnit"></span></label>
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('shading',{
+        category: 'shading',
+        color:"#336699",
+        defaults: {
+            name: {value:""},
+            inputs: { value:6 },
+            outputs: { value:4 },
+            shadingType: {value:0, validate:RED.validators.number()},
+            totalTimeMovingUp: {value:0, validate:RED.validators.number()},
+            totalTimeMovingDown: {value:0, validate:RED.validators.number()},
+            deadTime: {value:0, validate:RED.validators.number()},
+            startTime: {value:0, validate:RED.validators.number()},
+            actionAfterSecurity: {value:0, validate:RED.validators.number()},
+            stepsNumber: {value:1, validate:RED.validators.number()},
+            slatAdjustTime: {value:0, validate:RED.validators.number()}
+        },
+        inputs:6,
+        inputInfo: [
+            {
+                label: "up",
+                types: ["bool"]
+            },
+            {
+                label: "down",
+                types: ["bool"]
+            },
+            {
+                label: "stop",
+                types: ["bool"]
+            },
+            {
+                label: "pos",
+                types: ["int"]
+            },
+            {
+                label: "secpos",
+                types: ["bool"]
+            },
+            {
+                label: "deac",
+                types: ["bool"]
+            },
+            {
+                label: "slatsup",
+                types: ["bool"]
+            },
+            {
+                label: "slatsdown",
+                types: ["bool"]
+            },
+            {
+                label: "slatspos",
+                types: ["int"]
+            }
+        ],
+        outputs:4,
+        outputInfo: [
+            {
+                label: "up",
+                types: ["bool"]
+            },
+            {
+                label: "down",
+                types: ["bool"]
+            },
+            {
+                label: "stop",
+                types: ["bool"]
+            },
+            {
+                label: "pos",
+                types: ["int"]
+            },
+            {
+                label: "slatsup",
+                types: ["bool"]
+            },
+            {
+                label: "slatsdown",
+                types: ["bool"]
+            },
+            {
+                label: "slatspos",
+                types: ["int"]
+            }
+        ],
+        icon: "font-awesome/fa-cloud",
+        label: function() {
+            if(this.name) return this.name;
+            return "shading";
+        },
+        paletteLabel: "shading",
+        oneditsave: function() {
+            this.inputs = $("#node-input-shadingType").val() == 1 ? 9 : 6;
+            this.outputs = $("#node-input-shadingType").val() == 1 ? 7 : 4;
+        },
+        oneditprepare: function() {
+            this.inputs = $("#node-input-shadingType").val() == 1 ? 9 : 6;
+            this.outputs = $("#node-input-shadingType").val() == 1 ? 7 : 4;
+
+            $("#node-input-shadingType").on("change", function() {
+                if($("#node-input-shadingType").val() == 0){
+                    $("#stepsNumber-div").hide();
+                    $("#slat-adj-time-div").hide();
+                    this.inputs = 6;
+                    this.outputs = 4;
+                } else {
+                    $("#stepsNumber-div").show();
+                    $("#slat-adj-time-div").show();
+                    this.inputs = 9;
+                    this.outputs = 7;
+                }
+            });
+
+            $("#node-input-totalTimeMovingUp").typedInput({
+                type:"string",
+                types:["int"],
+                typeField: "#node-input-totalTimeMovingUp-type"
+            });
+            $("#node-input-totalTimeMovingDown").typedInput({
+                type:"string",
+                types:["int"],
+                typeField: "#node-input-totalTimeMovingDown-type"
+            });
+            $("#node-input-deadTime").typedInput({
+                type:"string",
+                types:["int","float"],
+                typeField: "#node-input-deadTime-type"
+            });
+            $("#node-input-startTime").typedInput({
+                type:"string",
+                types:["int","float"],
+                typeField: "#node-input-startTime-type"
+            });
+            $("#node-input-stepsNumber").typedInput({
+                type:"string",
+                types:["int"],
+                typeField: "#node-input-stepsNumber-type"
+            });
+            $("#node-input-slatAdjustTime").typedInput({
+                type:"string",
+                types:["int"],
+                typeField: "#node-input-slatAdjustTime-type"
+            });
+        }
+    });
+</script>

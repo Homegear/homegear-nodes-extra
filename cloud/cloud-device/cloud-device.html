@@ -1,0 +1,364 @@
+<!--
+  Copyright JS Foundation and other contributors, http://js.foundation
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<script type="text/x-red" data-template-name="cloud-device">
+    <div class="form-row">
+        <label for="node-input-name" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-description" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.description"></span></label>
+        <input type="text" id="node-input-description" data-i18n="[placeholder]cloud-device.label.description">
+    </div>
+    <div class="form-row">
+		<label for="node-input-manufacturer" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.manufacturer"></span></label>
+		<input type="text" id="node-input-manufacturer" data-i18n="[placeholder]cloud-device.label.manufacturer">
+	</div>
+	<div class="form-row">
+		<label for="node-input-product-name" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.product-name"></span></label>
+		<input type="text" id="node-input-product-name" data-i18n="[placeholder]cloud-device.label.product-name">
+	</div>
+	<div class="form-row">
+		<label for="node-input-serial-number" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.serial-number"></span></label>
+		<input type="text" id="node-input-serial-number" data-i18n="[placeholder]cloud-device.label.serial-number">
+	</div>
+	<div class="form-row">
+		<label for="node-input-hardware-version" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.hardware-version"></span></label>
+		<input type="text" id="node-input-hardware-version" data-i18n="[placeholder]cloud-device.label.hardware-version">
+	</div>
+	<div class="form-row">
+		<label for="node-input-software-version" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.software-version"></span></label>
+		<input type="text" id="node-input-software-version" data-i18n="[placeholder]cloud-device.label.software-version">
+	</div>
+	<div class="form-row">
+        <label for="node-input-equipment-id" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.equipment-id"></span></label>
+        <input type="text" id="node-input-equipment-id" data-i18n="[placeholder]cloud-device.label.equipment-id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tags" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.tags"></span></label>
+        <input type="text" id="node-input-tags" data-i18n="[placeholder]cloud-device.label.tags-placeholder">
+    </div>
+    <div class="form-row">
+        <label for="node-input-section" style="width: 170px;"><i class="fa fa-sun-o"></i> <span data-i18n="cloud-device.label.section"></span></label>
+        <select id="node-input-section">
+            <option value="digital-infrastructure" data-i18n="cloud-device.label.digital-infrastructure"></option>
+            <option value="meters" data-i18n="cloud-device.label.meters"></option>
+            <option value="primary-facilities" data-i18n="cloud-device.label.primary-facilities"></option>
+            <option value="smart-home" data-i18n="cloud-device.label.smart-home"></option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-au" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.au"></span></label>
+        <input type="text" id="node-input-au" data-i18n="[placeholder]cloud-device.label.au-placeholder">
+    </div>
+    <div class="form-row">
+        <label for="node-input-offline-timeout" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.offline-timeout"></span></label>
+        <input type="text" style="width: calc(70% - 20px)" id="node-input-offline-timeout" data-i18n="[placeholder]cloud-device.label.offline-timeout-placeholder">
+        <label style="width: 20px" for="node-input-tags"><span data-i18n="cloud-device.label.offline-timeout-unit"></span></label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-metadata" style="width: 170px;"><i class="fa fa-tag"></i> <span data-i18n="cloud-device.label.metadata"></span></label>
+        <input type="text" id="node-input-metadata" data-i18n="[placeholder]cloud-device.label.metadata-placeholder">
+    </div>
+    <div class="form-row node-input-datapoints-container-row">
+        <input type="hidden" id="node-input-inputs"/>
+        <label for="node-input-datapoints-container" style="width: 100%"><i class="fa fa-clock-o"></i> <span data-i18n="cloud-device.label.datapoints"></span></label>
+        <ol id="node-input-datapoints-container"></ol>
+    </div>
+</script>
+<script type="text/javascript">
+    (function () {
+        RED.nodes.registerType('cloud-device', {
+            category: 'network',
+            defaults: {
+                name: {value: "", required: true},
+                description: {value: ""},
+                manufacturer: {value: ""},
+                "product-name": {value: "", required: true},
+                "serial-number": {value: "", required: true},
+                "software-version": {value: ""},
+                "equipment-id": {value: ""},
+                tags: {value: ""},
+                section: {value: "primary-facilities", required: true},
+                au: {value: ""},
+                "offline-timeout": {value: 176400, required: true, validate: function (v) { return parseInt(v) === 0 || v >= 600; }},
+                metadata: {value: {}},
+                datapoints: {
+                    value: [{id: "", l: "", t: "int", r: "", sr: "", au: "", u: "", uc: "", p: "info"}],
+                    validate: function (v) {
+                        for (let i = 0; i < v.length; i++) {
+                            const datapoint = this.datapoints[i];
+                            if (datapoint.id.length === 0 ||
+                                datapoint.t.length === 0 ||
+                                (datapoint.r.length > 0 && parseInt(datapoint.r) === 0) ||
+                                (datapoint.r.length > 0 && (datapoint.r.length < 5 || (datapoint.r % 100 === 0 && datapoint.sr.length === 0) || (datapoint.r >= 800000 && datapoint.r < 900000) || datapoint.r < 10000)) ||
+                                (datapoint.sr.length > 0 && parseInt(datapoint.sr) === 0) ||
+                                (datapoint.sr.length > 0 && (datapoint.sr.length < 6 || datapoint.sr % 100 === 0 || datapoint.sr < 800000 || datapoint.sr > 899999)) ||
+                                (datapoint.r.length === 0 && datapoint.sr.length === 0) ||
+                                isNaN(datapoint.uc)) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                },
+                inputs: {value: 1}
+            },
+            color: "#142431",
+            inputs: 1,
+            inputInfo: function (i) {
+                if (this.datapoints && i < this.datapoints.length) {
+                    let datapoint = this.datapoints[i];
+                    if (!datapoint.hasOwnProperty('id') || !datapoint.hasOwnProperty('t') || !datapoint.hasOwnProperty('r') || !datapoint.hasOwnProperty('sr') || !datapoint.hasOwnProperty('au') || !datapoint.hasOwnProperty('u') || !datapoint.hasOwnProperty('uc') || !datapoint.hasOwnProperty('p')) {
+                        return {label: i + ''};
+                    }
+                    return {
+                        types: [datapoint.t === 'action' ? 'bool' : datapoint.t],
+                        label: datapoint.id ? datapoint.id : datapoint.r + '',
+                        description: "<b>ID:</b> " + datapoint.id + "<br/><b>Type:</b> " + datapoint.t + "<br/><b>Role:</b> " + datapoint.r + "<br/><b>Service role:</b> " + datapoint.sr + "<br/><b>Location:</b> " + datapoint.au + "<br/><b>Unit:</b> " + datapoint.u + "<br/><b>Unit code:</b> " + datapoint.uc + "<br/><b>Priority:</b> " + datapoint.p
+                    }
+                } else return {label: i + ''};
+            },
+            outputs: 0,
+            icon: "font-awesome/fa-cloud",
+            align: "right",
+            label: function () {
+                return this.name || "cloud-device";
+            },
+            labelStyle: function () {
+                return "red-ui-flow-node-label-white";
+            },
+            oneditprepare: function () {
+                let that = this;
+                let idLabelText = this._("cloud-device.label.id");
+                let labelLabelText = this._("cloud-device.label.label");
+                let typeLabelText = this._("cloud-device.label.type");
+                let roleLabelText = this._("cloud-device.label.role");
+                let serviceRoleLabelText = this._("cloud-device.label.service-role");
+                let auLabelText = this._("cloud-device.label.au");
+                let unitLabelText = this._("cloud-device.label.unit");
+                let unitCodeLabelText = this._("cloud-device.label.unit-code");
+                let priorityLabelText = this._("cloud-device.label.priority");
+
+                let inputCount = $("#node-input-inputs").val("{}");
+
+                $("#node-input-datapoints-container").css('min-height', '150px').css('min-width', '600px').editableList({
+                    addItem: function (container, i, opt) {
+                        if (!opt.hasOwnProperty('d')) {
+                            opt.d = {};
+                        }
+                        let dataPoint = opt.d;
+                        if (!dataPoint.hasOwnProperty('id')) {
+                            dataPoint.id = '';
+                        }
+                        if (!dataPoint.hasOwnProperty('l')) {
+                            dataPoint.l = '';
+                        }
+                        if (!dataPoint.hasOwnProperty('t')) {
+                            dataPoint.t = '';
+                        }
+                        if (!dataPoint.hasOwnProperty('r')) {
+                            dataPoint.r = '';
+                        }
+                        if (!dataPoint.hasOwnProperty('sr')) {
+                            dataPoint.sr = '';
+                        }
+                        if (!dataPoint.hasOwnProperty('au')) {
+                            dataPoint.au = '';
+                        }
+                        if (!dataPoint.hasOwnProperty('u')) {
+                            dataPoint.u = '';
+                        }
+                        if (!dataPoint.hasOwnProperty('uc')) {
+                            dataPoint.uc = '';
+                        }
+                        if (!dataPoint.hasOwnProperty('p')) {
+                            dataPoint.p = 'info';
+                        }
+                        if (!opt.hasOwnProperty('i')) {
+                            opt._i = Math.floor((0x99999 - 0x10000) * Math.random()).toString(16)
+                        }
+                        let row = $('<div/>', {style: "display: flex; justify-content: space-between; align-items: center;"}).appendTo(container);
+                        let row2 = $('<div/>', {style: "display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"}).appendTo(container);
+                        let row3 = $('<div/>', {style: "display: flex; justify-content: space-between; align-items: center; margin-top: 8px;"}).appendTo(container);
+
+                        let idLabel = $('<span/>', {class: "node-input-datapoint-id-label"}).text(" " + idLabelText + " ").appendTo(row);
+                        let idField = $('<input/>', {
+                            class: "node-input-datapoint-id",
+                            type: "text",
+                            maxlength: "50",
+                            style: "margin-left: 5px; margin-right: 5px; flex-grow: 1; width: 60px;"
+                        }).appendTo(row);
+
+                        let labelLabel = $('<span/>', {class: "node-input-datapoint-label-label"}).text(" " + labelLabelText + " ").appendTo(row);
+                        let labelField = $('<input/>', {
+                            class: "node-input-datapoint-label",
+                            type: "text",
+                            maxlength: "50",
+                            style: "margin-left: 5px; margin-right: 5px; flex-grow: 1; width: 60px;"
+                        }).appendTo(row);
+
+                        let typeLabel = $('<span/>', {class: "node-input-datapoint-type-label"}).text(" " + typeLabelText + " ").appendTo(row2);
+                        let typeField = $('<select/>', {
+                            class: "node-input-datapoint-type",
+                            style: "width:70px; margin-left: 5px; margin-right: 5px; text-align: center;"
+                        }).appendTo(row2);
+                        typeField.append($("<option></option>").val("int").text("int"));
+                        typeField.append($("<option></option>").val("float").text("float"));
+                        typeField.append($("<option></option>").val("bool").text("bool"));
+                        typeField.append($("<option></option>").val("action").text("action"));
+                        typeField.append($("<option></option>").val("string").text("string"));
+
+                        let roleLabel = $('<span/>', {class: "node-input-datapoint-role-label"}).text(" " + roleLabelText + " ").appendTo(row2);
+                        let roleField = $('<input/>', {
+                            class: "node-input-datapoint-role",
+                            type: "text",
+                            maxlength: "6",
+                            style: "margin-left: 5px; margin-right: 5px; flex-grow: 1; width: 60px;"
+                        }).appendTo(row2);
+
+                        let serviceRoleLabel = $('<span/>', {class: "node-input-datapoint-role-label"}).text(" " + serviceRoleLabelText + " ").appendTo(row2);
+                        let serviceRoleField = $('<input/>', {
+                            class: "node-input-datapoint-service-role",
+                            type: "text",
+                            maxlength: "6",
+                            style: "margin-left: 5px; margin-right: 5px; flex-grow: 1; width: 60px;"
+                        }).appendTo(row2);
+
+                        let auLabel = $('<span/>', {class: "node-input-datapoint-au-label"}).text(" " + auLabelText + " ").appendTo(row3);
+                        let auField = $('<input/>', {
+                            class: "node-input-datapoint-au",
+                            type: "text",
+                            maxlength: "15",
+                            style: "margin-left: 5px; margin-right: 5px; flex-grow: 1; width: 60px;"
+                        }).appendTo(row3);
+
+                        let unitLabel = $('<span/>', {class: "node-input-datapoint-unit-label"}).text(" " + unitLabelText + " ").appendTo(row3);
+                        let unitField = $('<input/>', {
+                            class: "node-input-datapoint-unit",
+                            type: "text",
+                            maxlength: "5",
+                            style: "margin-left: 5px; margin-right: 5px; flex-grow: 1; width: 60px;"
+                        }).appendTo(row3);
+
+                        let unitCodeLabel = $('<span/>', {class: "node-input-datapoint-unit-code-label"}).text(" " + unitCodeLabelText + " ").appendTo(row3);
+                        let unitCodeField = $('<input/>', {
+                            class: "node-input-datapoint-unit-code",
+                            type: "text",
+                            maxlength: "5",
+                            style: "margin-left: 5px; margin-right: 5px; flex-grow: 1; width: 60px;"
+                        }).appendTo(row3);
+
+                        let priorityLabel = $('<span/>', {class: "node-input-datapoint-priority-label"}).text(" " + priorityLabelText + " ").appendTo(row3);
+                        let priorityField = $('<select/>', {
+                            class: "node-input-datapoint-priority",
+                            style: "width:90px; margin-left: 5px; margin-right: 5px; text-align: center;"
+                        }).appendTo(row3);
+                        priorityField.append($("<option></option>").val("critical").text(that._("cloud-device.label.priority-critical")));
+                        priorityField.append($("<option></option>").val("error").text(that._("cloud-device.label.priority-error")));
+                        priorityField.append($("<option></option>").val("warning").text(that._("cloud-device.label.priority-warning")));
+                        priorityField.append($("<option></option>").val("info").text(that._("cloud-device.label.priority-info")));
+
+                        /*let finalspan = $('<span/>', {style: "float: right; margin-top: 6px; margin-left: 10px;"}).appendTo(row);
+                        finalspan.append(' &#8594; <span class="node-input-index">' + i + '</span> ');*/
+
+                        idField.val(datapoint.id);
+                        labelField.val(datapoint.l);
+                        typeField.val(datapoint.t);
+                        roleField.val(datapoint.r);
+                        serviceRoleField.val(datapoint.sr);
+                        auField.val(datapoint.au);
+                        unitField.val(datapoint.u);
+                        unitCodeField.val(datapoint.uc);
+                        priorityField.val(datapoint.p);
+
+                        let currentInputs = JSON.parse(inputCount.val() || "{}");
+                        currentInputs[opt.hasOwnProperty('i') ? opt.i : opt._i] = i;
+                        inputCount.val(JSON.stringify(currentInputs));
+                    },
+                    removeItem: function (opt) {
+                        let currentInputs = JSON.parse(inputCount.val() || "{}");
+                        if (opt.hasOwnProperty('i')) {
+                            currentInputs[opt.i] = -1;
+                        } else {
+                            delete currentInputs[opt._i];
+                        }
+                        var rules = $("#node-input-datapoints-container").editableList('items');
+                        rules.each(function (i) {
+                            $(this).find(".node-input-index").html(i);
+                            let data = $(this).data('data');
+                            currentInputs[data.hasOwnProperty('i') ? data.i : data._i] = i;
+                        });
+                        inputCount.val(JSON.stringify(currentInputs));
+                    },
+                    sortItems: function () {
+                        let currentInputs = JSON.parse(inputCount.val() || "{}");
+                        let datapoints = $("#node-input-datapoints-container").editableList('items');
+                        datapoints.each(function (i) {
+                            $(this).find(".node-input-index").html(i);
+                            let data = $(this).data('data');
+                            currentInputs[data.hasOwnProperty('i') ? data.i : data._i] = i;
+                        });
+                        inputCount.val(JSON.stringify(currentInputs));
+                    },
+                    sortable: true,
+                    removable: true
+                });
+
+                for (let i = 0; i < this.datapoints.length; i++) {
+                    var datapoint = this.datapoints[i];
+                    $("#node-input-datapoints-container").editableList('addItem', {d: datapoint, i: i});
+                }
+            },
+            oneditsave: function () {
+                var node = this;
+
+                var datapoints = $("#node-input-datapoints-container").editableList('items');
+                node.datapoints = [];
+                datapoints.each(function (i) {
+                    let datapointData = $(this).data('data');
+                    let datapoint = $(this);
+                    let id = datapoint.find(".node-input-datapoint-id").val();
+                    let label = datapoint.find(".node-input-datapoint-label").val();
+                    let type = datapoint.find(".node-input-datapoint-type").val();
+                    let role = datapoint.find(".node-input-datapoint-role").val();
+                    let serviceRole = datapoint.find(".node-input-datapoint-service-role").val();
+                    let au = datapoint.find(".node-input-datapoint-au").val();
+                    let unit = datapoint.find(".node-input-datapoint-unit").val();
+                    let unitCode = datapoint.find(".node-input-datapoint-unit-code").val();
+                    let priority = datapoint.find(".node-input-datapoint-priority").val();
+                    node.datapoints.push({
+                        id: id,
+                        l: label,
+                        t: type,
+                        r: role,
+                        sr: serviceRole,
+                        au: au,
+                        u: unit,
+                        uc: unitCode,
+                        p: priority
+                    });
+                });
+            },
+            oneditresize: function (size) {
+                var rows = $("#dialog-form>div:not(.node-input-datapoints-container-row)");
+                var height = size.height;
+                for (var i = 0; i < rows.size(); i++) {
+                    height -= $(rows[i]).outerHeight(true);
+                }
+                var editorRow = $("#dialog-form>div.node-input-datapoints-container-row");
+                height -= (parseInt(editorRow.css("marginTop")) + parseInt(editorRow.css("marginBottom")));
+                $("#node-input-datapoints-container").editableList('height', height);
+            }
+        });
+    })();
+</script>

@@ -1,0 +1,138 @@
+<script type="text/x-red" data-template-name="heating-controller">
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="common.label.name"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-name" data-i18n="[placeholder]common.label.name">
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-heatingtype"><i class="fa fa-sun-o"></i> <span data-i18n="heating-controller.label.heatingtype"></span></label>
+        <select style="width: 55%;" id="node-input-heatingtype" style="display: inline-block; width: 65%;">
+            <option value="radiator" data-i18n="heating-controller.label.radiator"></option>
+            <option value="castironradiator" data-i18n="heating-controller.label.castironradiator"></option>
+            <option value="floorheating" data-i18n="heating-controller.label.floorheating"></option>
+            <option value="manual" data-i18n="heating-controller.label.manual"></option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-decalcificationday"><i class="fa fa-clock-o"></i> <span data-i18n="heating-controller.label.decalcificationday"></span></label>
+        <select style="width: 55%;" id="node-input-decalcificationday" style="display: inline-block; width: 65%;">
+            <option value="1" data-i18n="heating-controller.label.monday"></option>
+            <option value="2" data-i18n="heating-controller.label.tuesday"></option>
+            <option value="3" data-i18n="heating-controller.label.wednesday"></option>
+            <option value="4" data-i18n="heating-controller.label.thursday"></option>
+            <option value="5" data-i18n="heating-controller.label.friday"></option>
+            <option value="6" data-i18n="heating-controller.label.saturday"></option>
+            <option value="0" data-i18n="heating-controller.label.sunday"></option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label style="width: 170px;" for="node-input-decalcificationhour"><i class="fa fa-clock-o"></i> <span data-i18n="heating-controller.label.decalcificationhour"></span></label>
+        <select style="width: 55%;" id="node-input-decalcificationhour" style="display: inline-block; width: 65%;">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+        </select>
+    </div>
+    <div class="form-row type-manual hide">
+        <label style="width: 170px;" for="node-input-kp"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-controller.label.kp"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-kp" data-i18n="[placeholder]heating-controller.label.kp">
+    </div>
+    <div class="form-row type-manual hide">
+        <label style="width: 170px;" for="node-input-tn"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-controller.label.tn"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-tn" data-i18n="[placeholder]heating-controller.label.tn">
+    </div>
+    <div class="form-row type-manual hide">
+        <label style="width: 170px;" for="node-input-td"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-controller.label.td"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-td" data-i18n="[placeholder]heating-controller.label.td">
+    </div>
+    <div class="form-row type-manual hide">
+        <label style="width: 170px;" for="node-input-rcwlp"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-controller.label.rcwlp"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-rcwlp" data-i18n="[placeholder]heating-controller.label.rcwlp">
+    </div>
+    <div class="form-row type-manual hide">
+        <label style="width: 170px;" for="node-input-ylprc"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-controller.label.ylprc"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-ylprc" data-i18n="[placeholder]heating-controller.label.ylprc">
+    </div>
+    <div class="form-row type-manual hide">
+        <label style="width: 170px;" for="node-input-uvalvelprc"><i class="fa fa-balance-scale"></i> <span data-i18n="heating-controller.label.uvalvelprc"></span></label>
+        <input style="width: 55%;" type="text" id="node-input-uvalvelprc" data-i18n="[placeholder]heating-controller.label.uvalvelprc">
+    </div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('heating-controller',{
+        category: 'HVAC',
+        color:"#3FADB5",
+        defaults: {
+            name: {value:""},
+            heatingtype: {value:"radiator",required:true},
+            decalcificationday: {value:"5",validate:RED.validators.number()},
+            decalcificationhour: {value:"11",validate:RED.validators.number()},
+            kp: {value:"50",validate:RED.validators.number()},
+            tn: {value:"7200",validate:RED.validators.number()},
+            td: {value:"600",validate:RED.validators.number()},
+            rcwlp: {value:"60",validate:RED.validators.number()},
+            ylprc: {value:"60",validate:RED.validators.number()},
+            uvalvelprc: {value:"60",validate:RED.validators.number()}
+        },
+        inputs:3,
+        inputInfo: [
+            {
+                label: "EN",
+                types: ["boolean"]
+            },
+            {
+                label: "y",
+                types: ["float"]
+            },
+            {
+                label: "w",
+                types: ["float"]
+            }
+        ],
+        outputs:1,
+        outputInfo: [
+            {
+                label: "u",
+                types: ["int"]
+            }
+        ],
+        icon: "font-awesome/fa-thermometer",
+        label: function() {
+            if(this.name) return this.name;
+            return "heating controller";
+        },
+        paletteLabel: "heating",
+        labelStyle: function () {
+			return "red-ui-flow-node-label-white";
+		},
+        oneditprepare: function() {
+            $("#node-input-heatingtype").on("change", function() {
+                if($(this).val() == "manual"){
+                    $(".type-manual").show();
+                } else {
+                    $(".type-manual").hide();
+                }
+            });
+        }
+    });
+</script>

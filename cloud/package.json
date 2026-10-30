@@ -1,0 +1,20 @@
+{
+  "name": "cloud",
+  "description": "Node-BLUE nodes to connect to the Sensaru cloud.",
+  "keywords": [
+    "node-blue",
+    "homegear",
+    "cloud",
+    "sensaru"
+  ],
+  "node-blue": {
+    "local": false,
+    "maxThreadCounts": {
+      "cloud-device": 1
+    },
+    "nodes": {
+      "cloud-device": "cloud-device.so"
+    }
+  },
+  "version": "1.0.0"
+}

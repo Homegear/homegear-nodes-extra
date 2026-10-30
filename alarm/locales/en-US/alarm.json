@@ -1,0 +1,10 @@
+{
+  "alarm": {
+    "label": {
+      "zones": "Zones",
+      "detectionGroups": "Detection groups"
+    },
+    "paletteHelp": "<p></p>",
+    "help": "<p></p>"
+  }
+}
